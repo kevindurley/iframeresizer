@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>xxx</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+<script>
+
+function extractDomain(url) {
+    var domain;
+    // find & remove protocol (http, ftp, etc.) and get domain
+    if (url.indexOf("://") > -1) {
+        domain = url.split('/')[2];
+    }
+    else {
+        domain = url.split('/')[0];
+    }
+    // assuming http ...
+    return 'http://' + domain;
+}
+
+$(document).ready(function(){
+
+	console.log('resize holder ready');
+
+	var iframeUrl = "http://local.iframe.com/iframe/resize.html"
+	var iframeDomain = extractDomain(iframeUrl);
+
+	var parentDomain = document.location.protocol + "//" + document.location.host;
+
+	// console.log(parentDomain + ' ' + iframeDomain);
+
+	$('#theIframe').attr('src', iframeUrl); 
+
+	function receiveMessage(event) {
+
+		// console.log(event);
+
+		// origin check probably not required
+		var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
+		if (origin !== iframeDomain) {
+			return;
+		}
+		else {
+			console.log('success');
+			var height = event.data.height;
+			$('#theIframe').css('height', height + 'px');
+		}
+
+	}
+
+	if (window.addEventListener) {
+		window.addEventListener("message", receiveMessage, false);
+	} 
+	else if (window.attachEvent) {
+		window.attachEvent("onmessage", receiveMessage);
+	}
+
+	setTimeout(function() {
+		// get a reference to the iframe content window
+		var iframeWin = document.getElementById("theIframe").contentWindow;
+		// send the parent domain to the child
+		iframeWin.postMessage({"domain": parentDomain}, iframeDomain);
+	}, 500);
+
+});
+
+</script>
+</head>
+<body>
+
+<div>
+index.html
+</div>
+<div>
+before
+</div>
+<div>
+before
+</div>
+<div>
+before
+</div>
+<div>
+<iframe id="theIframe" scrolling="no" frameborder="0" height="0" width="100%">
+iframes not supported
+</iframe>
+</div>
+<div>
+after
+</div>
+<div>
+after
+</div>
+<div>
+after
+</div>
+
+</body>
+</html>

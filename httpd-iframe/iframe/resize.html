@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>xxx</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+body {
+	padding:0;
+	margin:0;
+	background-color:#eeeeee;
+}
+#wrapper {
+	padding:10px;
+}
+#content {
+	background-color:#e0e0e0;
+}
+img.twohundred {
+	display:block;
+	margin:0 auto;
+	width:100%;
+	max-width:400px;
+}
+
+</style>
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+<script>
+
+$(document).ready(function(){
+	
+	console.log('resize iframe ready');
+
+	var parentDomain = '';
+
+	function receiveMessage(event) {
+		parentDomain = event.data.domain;
+		// now set the initial size
+		$(window).trigger('resize');
+	}
+
+	if (window.addEventListener) {
+		window.addEventListener("message", receiveMessage, false);
+	} 
+	else if (window.attachEvent) {
+		window.attachEvent("onmessage", receiveMessage);
+	}
+
+	$( window ).resize(function() {
+
+		console.log('resizing');
+
+		var height = $('#wrapper').outerHeight();
+
+		console.log(height);
+
+		if (parentDomain != '') {
+			if (parent.postMessage) {
+				// send the required height to the parent
+				parent.postMessage({"height":height}, parentDomain);
+			}
+		}
+
+	});
+
+});
+
+
+</script>
+</head>
+<body>
+
+<div id="wrapper">
+	<div id="content">
+		<div>
+		iframe content
+		</div>
+		<div>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div>
+			<img class="twohundred" src="images/outtakes.jpg"/>
+		</div>
+		<div>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div>
+			<img class="twohundred" src="images/outtakes.jpg"/>
+		</div>
+		<div>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
